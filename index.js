@@ -3,25 +3,29 @@
 // Başlangıç Challenge'ı
 
 /**Örnek Görev: İlkini Dön
- * 
+ *
  * Bu örnek sonradan gelecek olan görevleri nasıl çözeceğinizi size gösterecek.
- * 
+ *
  * Aşağdıaki Yüksek dereceden fonskiyonu(higher-order function) kullanarak aşağıdakileri yapınız
  *  1. Stringlerden oluşan bir array'i parametre olarak alın
- *  2. Bir string'i değişken olarak alan bir callback fonksiyonunu parametre olarak alın 
+ *  2. Bir string'i değişken olarak alan bir callback fonksiyonunu parametre olarak alın
  *  3. Array'in İLK elemanını değişken olarak alarak çalışacak olan callback fonksiyonunun sonucunu dönün
- * 
+ *
  * Aşağıdaki kodlar bu görevin nasıl yapılacağına örnek olacaktır
  * Bu fonskiyon 'asas' dönmeli(return)
-*/
+ */
 
 function ilkiniDon(stringArray, callback) {
-  return callback(stringArray[0])
+  return callback(stringArray[0]);
 }
-console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin+metin}));
+console.log(
+  "örnek görev:",
+  ilkiniDon(["as", "sa"], function (metin) {
+    return metin + metin;
+  })
+);
 
 // Başlangıç Challenge'ı Sonu
-
 
 ///// M V P ///////
 
@@ -30,18 +34,19 @@ console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin
   Aşağıdaki skor1 ve skor2 kodlarını inceleyiniz ve aşağıdaki soruları altına not alarak cevaplayın
   
   1. skor1 ve skor2 arasındaki fark nedir?
-  
+  birinde her seferinde skor değeri güncellenerek devam eder.2.de ise her çalıştırmada skor tekrar 0 a eşit şekilde yeniden toplanır.
   2. Hangisi bir closure kullanmaktadır? Nasıl tarif edebilirsin? (yarınki derste öğreneceksin :) )
-  
+  skor1 de closure vardır returnden sonra fonskiyon kullanıldığı için.
   3. Hangi durumda skor1 tercih edilebilir? Hangi durumda skor2 daha mantıklıdır?
+  bir maç oynanırken her yeni skoru bir öncekinin üstüne eklememiz gerekeciğinden skor1 daha mantıklı olur ama her skordan sonra sayacın sıfırlanmasını isteseydik 2.yi kullanırdık.
 */
 
 // skor1 kodları
 function skorArtirici() {
   let skor = 0;
   return function skorGuncelle() {
-   return skor++;
-  }
+    return skor++;
+  };
 }
 
 const skor1 = skorArtirici();
@@ -53,7 +58,6 @@ function skor2() {
   return skor++;
 }
 
-
 /* Görev 2: takimSkoru() 
 Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
   1. Bir çeyrekte bir takımın ürettiği skoru rastgele(random) elde eden bir sonuc dönünüz(return)
@@ -64,12 +68,12 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+function takimSkoru() {
+  let TkmSkoru = Math.floor(Math.random() * 16) + 10;
+  return TkmSkoru;
 }
 
-
-
+console.log("görev 2 sonuç :", takimSkoru());
 
 /* Görev 3: macSonucu() 
 Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
@@ -84,16 +88,27 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
   "EvSahibi": 92,
   "KonukTakim": 80
 }
-*/ 
+*/
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(callback, periyotSayi) {
+  let evSahibiSkor = 0;
+  let deplasmanSkor = 0;
+  for (let ceyrek = 1; ceyrek <= periyotSayi; ceyrek++) {
+    let esCeyrekSkor = callback();
+    let dplsCeyrekSkor = callback();
+    evSahibiSkor = esCeyrekSkor + evSahibiSkor;
+    deplasmanSkor = dplsCeyrekSkor + deplasmanSkor;
+  }
+  console.log(typeof evSahibiSkor, deplasmanSkor);
+  const myObj = {
+    EvSahibi: evSahibiSkor,
+    KonukTakim: deplasmanSkor,
+  };
+
+  return myObj;
 }
 
-
-
-
-
+console.log("Maç Sonucu :", macSonucu(takimSkoru, 4));
 
 /* Zorlayıcı Görev 4: periyotSkoru()
 Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
@@ -108,13 +123,16 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
 }
   */
 
-
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
-
+function periyotSkoru(callback) {
+  let EvPeriyotSayi = callback();
+  let DepPeriyotSayi = callback();
+  return {
+    EvSahibi: EvPeriyotSayi,
+    KonukTakim: DepPeriyotSayi,
+  };
 }
 
-
+console.log("Görev 4 sonuç :", periyotSkoru(takimSkoru));
 /* Zorlayıcı Görev 5: skorTabelasi() 
 Aşağıdaki skorTabelasi() fonksiyonunu kullanarak aşağıdakileri yapınız:
   1. İlk parametre olarak Görev 4'te oluşturduğumuz 'periyotSkoru'nu bir değişken olarak almalı
@@ -146,17 +164,38 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function skorTabelasi(cbPeriyot, cbTkmSkor, q) {
+  let homeP = 0;
+  let awayP = 0;
+  let scoreBoard = [];
+
+  for (let i = 1; i <= q; i++) {
+    let periyotSonuc = cbPeriyot(cbTkmSkor);
+    let homeP = +periyotSonuc.EvSahibi;
+    let awayP = +periyotSonuc.KonukTakim;
+    scoreBoard.push(`${i}. Periyot: Ev Sahibi ${homeP} - Konuk Takım ${awayP}`);
+  }
+  let uzatmalar = 0;
+  while ((homeP = awayP)) {
+    uzatmalar++;
+    let periyotSonuc = cbPeriyot(cbTkmSkor);
+    let homeP = +periyotSonuc.EvSahibi;
+    let awayP = +periyotSonuc.KonukTakim;
+    scoreBoard.push(
+      `${uzatmalar}. Uzatma: Ev Sahibi ${homeP} - Konuk Takım ${awayP}`
+    );
+  }
+  const matchResult = `Maç Sonucu: Ev Sahibi ${homeP} - Konuk Takım ${awayP}`;
+  scoreBoard.push(matchResult);
+
+  return scoreBoard;
 }
 
-
-
-
+console.log("görev 5 sonuç :", skorTabelasi(periyotSkoru, takimSkoru, 4));
 /* Aşağıdaki satırları lütfen değiştirmeyiniz*/
-function sa(){
-  console.log('Kodlar çalışıyor');
-  return 'as';
+function sa() {
+  console.log("Kodlar çalışıyor");
+  return "as";
 }
 sa();
 module.exports = {
@@ -168,4 +207,4 @@ module.exports = {
   macSonucu,
   periyotSkoru,
   skorTabelasi,
-}
+};
